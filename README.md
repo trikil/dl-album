@@ -1,3 +1,5 @@
+# `dl-album`
+
 ## What is this?
 
 This script downloads albums from popular music streaming sites (using [yt-dlp](https://github.com/yt-dlp/yt-dlp)) and adds custom metadata to each track (using [FFmpeg](https://ffmpeg.org/)). This ensures that metadata is relatively consistent; when downloading music manually from different sources you often get lots of duplicate artists due to varying spelling conventions.
