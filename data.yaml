@@ -1,0 +1,10 @@
+- title: A Youtube Playlist
+  artist: Gregor
+  cover: https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/2019-08-28-Gregor_Gysi-Maischberger-7202.jpg/220px-2019-08-28-Gregor_Gysi-Maischberger-7202.jpg
+  url: https://www.youtube.com/playlist?list=PLRwfuN7siOr7p044Iw_7jfEhGPgfVdST-
+  released: '2001-01-01'
+- title: A Bandcamp Album
+  artist: Christian
+  cover: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fdup-magazin.de%2Fwp-content%2Fuploads%2F2021%2F08%2FChaperon_3R0A5939_1440x1080-1440x1080.jpg&f=1&nofb=1&ipt=1b37d6dfd27f8a8a2b10b2d1fceec356ece7c135136050202a3554cc8588754d&ipo=images
+  url: https://sophiemsmsmsm.bandcamp.com/album/h-p006-sophie
+  released: '2002-01-01'
