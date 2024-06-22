@@ -8,6 +8,9 @@ import tldextract
 import yaml
 
 
+TMP_COVER_PATH = "/tmp/cover.png"
+
+
 def load_yaml(path, mode):
 	with open(path, mode) as stream:
 		try:
@@ -36,6 +39,8 @@ def download(path, data):
 			os.makedirs(album_path)
 			url = tldextract.extract(album["url"])
 			subprocess.run(get_command(url) + [album["url"]], cwd=album_path, stdout=subprocess.DEVNULL)
+		if "cover" in album:
+			run(["wget", "-nv", album["cover"], "-O", TMP_COVER_PATH])
 		for file in os.listdir(album_path):
 			file_path = "/".join(album_path_arr + [file])
 			set_metadata(album, file_path)
@@ -88,13 +93,11 @@ def set_metadata(data, file_path):
 
 	out_path = file_path # file_path.rsplit(".", 1)[0] + ".flac"
 	tmp_audio_path = f"/tmp/audio.{extension}"
-	tmp_cover_path = "/tmp/cover.png"
 
 	inputs = ["-i", file_path]
 
 	if "cover" in data:
-		run(["wget", "-nv", data["cover"], "-O", tmp_cover_path])
-		inputs += ["-i", tmp_cover_path]
+		inputs += ["-i", TMP_COVER_PATH]
 		metadata += [
 			"-map", "1",
 			"-metadata:s:v", "title=\"Album cover\"",
