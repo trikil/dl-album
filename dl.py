@@ -68,7 +68,7 @@ def set_metadata(data, file_path):
 	metadata = []
 
 	for key, value in tags.items():
-		escaped = value.replace("\"", "\\\"")
+		escaped = str(value).replace("\"", "\\\"")
 		metadata += ["-metadata", f"{key}={escaped}"]
 
 	file_name, extension = file_path.rsplit(".", 1)

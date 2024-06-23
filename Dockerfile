@@ -1,9 +1,17 @@
 FROM continuumio/miniconda3
 
+ARG USER_ID
+ARG GROUP_ID
+
 WORKDIR /app
 
 ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt update && apt install -y ffmpeg && rm -rf /var/lib/apt/lists/*
+
+RUN addgroup --gid $GROUP_ID user
+RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
+USER user
 
 COPY environment.yaml .
 RUN conda env create -f environment.yaml

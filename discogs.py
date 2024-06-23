@@ -1,6 +1,7 @@
 import discogs_client
 import os
 import sys
+import time
 import typing
 import yaml
 
@@ -16,9 +17,15 @@ client = discogs_client.Client("DlAlbum/0.1 +https://github.com/trikil/dl-album"
 
 output = []
 for album in input:
+    print(album)
+    time.sleep(0.5)
+
     if "id" not in album:
         continue
     id = album["id"]
+    if type(id) is int:
+        id = f"r{id}"
+    
     letter = id[0]
     number = id[1:]
 
