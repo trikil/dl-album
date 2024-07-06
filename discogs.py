@@ -1,3 +1,4 @@
+import argparse
 import discogs_client
 import os
 import sys
@@ -5,9 +6,24 @@ import time
 import typing
 import yaml
 
-path = sys.argv[1]
-with open(path, "r") as file:
-    input = yaml.safe_load(file)
+parser = argparse.ArgumentParser(
+    prog="discogs.py",
+    description="Download album metadata from Discogs",
+)
+
+parser.add_argument("input", default=sys.stdin)
+parser.add_argument("output", default=sys.stdout)
+parser.add_argument("-a", "--all", action="store_true")
+
+args = parser.parse_args()
+
+with open(args.input, "r") as file:
+    input: dict = yaml.safe_load(file)
+if os.path.isfile(args.output):
+    with open(args.output, "r") as file:
+        output = yaml.safe_load(file)
+else:
+    output = []
 
 token = os.getenv("DISCOGS_TOKEN")
 if token is None:
@@ -15,14 +31,23 @@ if token is None:
 
 client = discogs_client.Client("DlAlbum/0.1 +https://github.com/trikil/dl-album", user_token=token)
 
-output = []
-for album in input:
-    print(album)
-    time.sleep(0.5)
+for id, album in input.items():
+    # if "hint" in album:
+    #    continue
 
-    if "id" not in album:
+    indices = [i for i, a in enumerate(output) if "discogs_id" in a and a["discogs_id"] == id]
+    if len(indices) > 0:
         continue
-    id = album["id"]
+
+    print(f"{id}: {album}", file=sys.stderr)
+
+    if type(album) is str:
+        url, hint = album.split(None, 1)
+    else:
+        raise RuntimeError("bleh")
+    
+    time.sleep(2)
+
     if type(id) is int:
         id = f"r{id}"
     
@@ -41,14 +66,12 @@ for album in input:
     new_album["artist"] = release.artists[0].name # type: ignore
     new_album["title"] = release.title
     new_album["released"] = release.year
-    for x in album:
-        if x == "hint":
-            continue
-        new_album[x] = album[x]
+    new_album["url"] = url
+    new_album["discogs_id"] = id
+
     output.append(new_album)
+    with open(args.output, "w") as file:
+        yaml.dump(output, file, sort_keys=False, allow_unicode=True, width=float("inf"))
 
-    album["hint"] = new_album["artist"] + " -- " + new_album["title"]
-
-with open(path, "w") as file:
-    yaml.dump(input, file)
-yaml.dump(output, sys.stdout)
+with open(args.input, "w") as file:
+    yaml.dump(input, file, sort_keys=False, allow_unicode=True, width=float("inf"))

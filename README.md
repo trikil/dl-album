@@ -15,7 +15,7 @@ In the future I'd like to have `data.yaml` be generated from [Discogs](https://w
 Requires [Docker](https://www.docker.com/).
 
 ```sh
-docker build -t dl-album .
+docker build -t dl-album --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) .
 ```
 
 ## Run
