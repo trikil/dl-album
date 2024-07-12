@@ -8,8 +8,6 @@ Look at `data.yaml` to see how to specify metadata and download links.
 
 Some audio formats / sites might not yet work; I'll add support as I encounter them.
 
-In the future I'd like to have `data.yaml` be generated from [Discogs](https://www.discogs.com/) data.
-
 ## Build
 
 Requires [Docker](https://www.docker.com/).
